@@ -32,28 +32,28 @@ export function StartView() {
 				<HeaderGame />
 				<div className="container bg-secondary">
 					<h2 className="text-white text-center font-weight-bold my-5">
-						Pick a weapon! 🕹
+						Pick a weapon! 👵🏽🔪
 					</h2>
 
 					<div className="row d-flex justify-content-around">
 						<input
 							type="text"
 							placeholder="Player 1"
-							className="col-5"
+							className="col-3 "
 							id="player1"
 						/>
 						<input
 							type="text"
 							placeholder="Player 2"
-							className="col-5"
+							className="col-3"
 							id="player2"
 						/>
 					</div>
 					<div className="row d-flex justify-content-around">
-						<div className="col-2 rounded bg-dark  my-5">
-							<h1 className="text-danger text-center">X</h1>
+						<div className="col-1 rounded bg-dark my-5 p-2 d-flex justify-content-center">
+							<h1 className="text-danger text-center ">X</h1>
 						</div>
-						<div className="col-2 rounded bg-dark  my-5">
+						<div className="col-1 rounded bg-dark my-5 p-2 d-flex justify-content-center">
 							<h1 className="text-success text-center">O</h1>
 						</div>
 					</div>
