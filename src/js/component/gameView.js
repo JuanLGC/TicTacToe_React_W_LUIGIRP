@@ -1,142 +1,33 @@
 import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import HeaderGame from "./headerGame.js";
+import { calculateWinner } from "./winner.js";
 
 export default function GameView(props) {
-	const [turn, setTurn] = useState(1);
-	const [icon1, setIcon1] = useState("");
-	const [icon2, setIcon2] = useState("");
-	const [icon3, setIcon3] = useState("");
-	const [icon4, setIcon4] = useState("");
-	const [icon5, setIcon5] = useState("");
-	const [icon6, setIcon6] = useState("");
-	const [icon7, setIcon7] = useState("");
-	const [icon8, setIcon8] = useState("");
-	const [icon9, setIcon9] = useState("");
-	const [iconX, setIcon] = useState("X");
+	const [turn, setTurn] = useState(true);
+	const [value, setValue] = useState(["", "", "", "", "", "", "", "", ""]);
 	const [currentPlayer, setCurrentPlayer] = useState(props.p1);
-	const [didWin, playerdidWin] = useState("");
 
-	function reloadGame() {
-		setIcon1("");
-		setIcon2("");
-		setIcon3("");
-		setIcon4("");
-		setIcon5("");
-		setIcon6("");
-		setIcon7("");
-		setIcon8("");
-		setIcon9("");
-	}
+	const reloadGame = () => {
+		setValue([]);
+	};
 
-	function insertIcon(icon) {
-		if (icon == "") {
-			if (turn % 2 == 0) {
-				setIcon("X");
-				setTurn(turn + 1);
-				setCurrentPlayer(props.p1);
-			} else {
-				setIcon("O");
-				setTurn(turn + 1);
-				setCurrentPlayer(props.p2);
-			}
-			return iconX;
+	function insertIcon(e) {
+		if (turn === true) {
+			value.splice(e.target.id, 1, "X");
+			setCurrentPlayer(props.p2);
 		} else {
-			return icon;
+			value.splice(e.target.id, 1, "O");
+			setCurrentPlayer(props.p1);
 		}
 	}
-	// WINNING CONDITIONS
-	//      WINNING HORIZONTALLY
-	if (
-		icon1 != "" &&
-		icon2 != "" &&
-		icon3 != "" &&
-		icon1 == icon2 &&
-		icon2 == icon3
-	) {
-		alert(
-			"The winner is " + (currentPlayer == props.p1 ? props.p2 : props.p1)
-		);
-	}
-	if (
-		icon4 != "" &&
-		icon5 != "" &&
-		icon6 != "" &&
-		icon4 == icon5 &&
-		icon5 == icon6
-	) {
-		alert(
-			"The winner is " + (currentPlayer == props.p1 ? props.p2 : props.p1)
-		);
-	}
-	if (
-		icon7 != "" &&
-		icon8 != "" &&
-		icon9 != "" &&
-		icon7 == icon8 &&
-		icon8 == icon9
-	) {
-		alert(
-			"The winner is " + (currentPlayer == props.p1 ? props.p2 : props.p1)
-		);
-		//      WINNING VERTICALLY
-	}
-	if (
-		icon1 != "" &&
-		icon4 != "" &&
-		icon7 != "" &&
-		icon1 == icon4 &&
-		icon4 == icon7
-	) {
-		alert(
-			"The winner is " + (currentPlayer == props.p1 ? props.p2 : props.p1)
-		);
-	}
-	if (
-		icon2 != "" &&
-		icon5 != "" &&
-		icon8 != "" &&
-		icon2 == icon5 &&
-		icon2 == icon8
-	) {
-		alert(
-			"The winner is " + (currentPlayer == props.p1 ? props.p2 : props.p1)
-		);
-	}
-	if (
-		icon3 != "" &&
-		icon6 != "" &&
-		icon9 != "" &&
-		icon3 == icon6 &&
-		icon9 == icon3
-	) {
-		alert(
-			"The winner is " + (currentPlayer == props.p1 ? props.p2 : props.p1)
-		);
-		//      WINNING DIAGONALLY
-	}
-	if (
-		icon1 != "" &&
-		icon5 != "" &&
-		icon9 != "" &&
-		icon1 == icon5 &&
-		icon5 == icon9
-	) {
-		alert(
-			"The winner is " + (currentPlayer == props.p1 ? props.p2 : props.p1)
-		);
-	}
-	if (
-		icon7 != "" &&
-		icon5 != "" &&
-		icon3 != "" &&
-		icon7 == icon5 &&
-		icon5 == icon3
-	) {
-		alert(
-			"The winner is " + (currentPlayer == props.p1 ? props.p2 : props.p1)
-		);
-	}
+
+	useEffect(
+		() => {
+			calculateWinner(value);
+		},
+		[turn]
+	);
 
 	return (
 		<Fragment>
@@ -147,53 +38,89 @@ export default function GameView(props) {
 			<div className="container mt-3 pt-5">
 				<div className="row d-flex justify-content-center">
 					<div
+						id="0"
 						className="squares d-flex align-items-center justify-content-center"
-						onClick={() => setIcon1(insertIcon(icon1))}>
-						<p>{icon1}</p>
+						onClick={e => {
+							insertIcon(e);
+							setTurn(!turn);
+						}}>
+						<p id="0">{value[0]}</p>
 					</div>
 					<div
+						id="1"
 						className="squares d-flex align-items-center justify-content-center"
-						onClick={() => setIcon2(insertIcon(icon2))}>
-						<p>{icon2}</p>
+						onClick={e => {
+							insertIcon(e);
+							setTurn(!turn);
+						}}>
+						<p id="1">{value[1]}</p>
 					</div>
 					<div
+						id="2"
 						className="squares d-flex align-items-center justify-content-center"
-						onClick={() => setIcon3(insertIcon(icon3))}>
-						<p>{icon3}</p>
-					</div>
-				</div>
-				<div className="row d-flex justify-content-center">
-					<div
-						className="squares d-flex align-items-center justify-content-center"
-						onClick={() => setIcon4(insertIcon(icon4))}>
-						<p>{icon4}</p>
-					</div>
-					<div
-						className="squares d-flex align-items-center justify-content-center"
-						onClick={() => setIcon5(insertIcon(icon5))}>
-						<p>{icon5}</p>
-					</div>
-					<div
-						className="squares d-flex align-items-center justify-content-center"
-						onClick={() => setIcon6(insertIcon(icon6))}>
-						<p>{icon6}</p>
+						onClick={e => {
+							insertIcon(e);
+							setTurn(!turn);
+						}}>
+						<p id="2">{value[2]}</p>
 					</div>
 				</div>
 				<div className="row d-flex justify-content-center">
 					<div
+						id="3"
 						className="squares d-flex align-items-center justify-content-center"
-						onClick={() => setIcon7(insertIcon(icon7))}>
-						<p>{icon7}</p>
+						onClick={e => {
+							insertIcon(e);
+							setTurn(!turn);
+						}}>
+						<p id="3">{value[3]}</p>
 					</div>
 					<div
+						id="4"
 						className="squares d-flex align-items-center justify-content-center"
-						onClick={() => setIcon8(insertIcon(icon8))}>
-						<p>{icon8}</p>
+						onClick={e => {
+							insertIcon(e);
+							setTurn(!turn);
+						}}>
+						<p id="4">{value[4]}</p>
 					</div>
 					<div
+						id="5"
 						className="squares d-flex align-items-center justify-content-center"
-						onClick={() => setIcon9(insertIcon(icon9))}>
-						<p>{icon9}</p>
+						onClick={e => {
+							insertIcon(e);
+							setTurn(!turn);
+						}}>
+						<p id="5">{value[5]}</p>
+					</div>
+				</div>
+				<div className="row d-flex justify-content-center">
+					<div
+						id="6"
+						className="squares d-flex align-items-center justify-content-center"
+						onClick={e => {
+							insertIcon(e);
+							setTurn(!turn);
+						}}>
+						<p id="6">{value[6]}</p>
+					</div>
+					<div
+						id="7"
+						className="squares d-flex align-items-center justify-content-center"
+						onClick={e => {
+							insertIcon(e);
+							setTurn(!turn);
+						}}>
+						<p id="7">{value[7]}</p>
+					</div>
+					<div
+						id="8"
+						className="squares d-flex align-items-center justify-content-center"
+						onClick={e => {
+							insertIcon(e);
+							setTurn(!turn);
+						}}>
+						<p id="8">{value[8]}</p>
 					</div>
 				</div>
 				<div className="row d-flex justify-content-center">
